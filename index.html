@@ -282,27 +282,39 @@
         }
 
         function updateBlindsOutput() {
-            const measurementType = document.querySelector('input[name="blindMode"]:checked').value;
-            const windowWidth = parseFloat(document.getElementById("windowWidth").value) || 0;
-            const startingWidth = parseFloat(document.getElementById("startingWidth").value) || 0;
-            const trueStartingWidth = startingWidth - 0.5;
+    const measurementType = document.querySelector('input[name="blindMode"]:checked').value;
+    const windowWidth = parseFloat(document.getElementById("windowWidth").value) || 0;
+    const startingWidth = parseFloat(document.getElementById("startingWidth").value) || 0;
 
-            let targetWidth;
-            if (measurementType === "outside") {
-                targetWidth = windowWidth;
-            } else {
-                targetWidth = windowWidth - 0.5;
-            }
+    if (windowWidth === 0 || startingWidth === 0) {
+        document.getElementById("cutAmountOutput").textContent = "";
+        return;
+    }
 
-            const cutAmount = ((trueStartingWidth - targetWidth) / 2).toFixed(2);
-            const cutAmountOutput = cutAmount + " inches";
+    const trueStartingWidth = startingWidth - 0.5;
 
-            document.getElementById("cutAmountOutput").textContent = cutAmountOutput;
-        }
+    let targetWidth;
+    if (measurementType === "outside") {
+        targetWidth = windowWidth;
+    } else {
+        targetWidth = windowWidth - 0.5;
+    }
 
-        function toggleBlindMode() {
-            updateBlindsOutput();
-        }
+    const cutAmount = ((trueStartingWidth - targetWidth) / 2).toFixed(2);
+
+    let cutAmountOutput;
+    if (cutAmount < 0) {
+        cutAmountOutput = "Need Wider Size";
+    } else {
+        cutAmountOutput = cutAmount + " inches";
+    }
+
+    document.getElementById("cutAmountOutput").textContent = cutAmountOutput;
+}
+
+function toggleBlindMode() {
+    updateBlindsOutput();
+}
     </script>
 </body>
 </html>
