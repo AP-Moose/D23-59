@@ -187,16 +187,11 @@
 
             <div id="blinds" class="tabcontent">
                 <h2>Blind Cutting Calculator</h2>
+                <div class="toggle">
+                    <label><input type="radio" name="blindMode" value="outside" checked onchange="toggleBlindMode()"> Outside</label>
+                    <label><input type="radio" name="blindMode" value="inside" onchange="toggleBlindMode()"> Inside</label>
+                </div>
                 <table>
-                    <tr>
-                        <td><label for="measurementType">Customer's Measurement:</label></td>
-                        <td>
-                            <select id="measurementType" onchange="updateBlindsOutput()">
-                                <option value="outside">Outside</option>
-                                <option value="inside">Inside</option>
-                            </select>
-                        </td>
-                    </tr>
                     <tr>
                         <td><label for="windowWidth">Customer Window Width (inches):</label></td>
                         <td><input type="number" id="windowWidth" placeholder="Enter window width..." oninput="updateBlindsOutput()"></td>
@@ -287,22 +282,26 @@
         }
 
         function updateBlindsOutput() {
-            const measurementType = document.getElementById("measurementType").value;
+            const measurementType = document.querySelector('input[name="blindMode"]:checked').value;
             const windowWidth = parseFloat(document.getElementById("windowWidth").value) || 0;
             const startingWidth = parseFloat(document.getElementById("startingWidth").value) || 0;
             const trueStartingWidth = startingWidth - 0.5;
-            
+
             let targetWidth;
             if (measurementType === "outside") {
                 targetWidth = windowWidth;
             } else {
                 targetWidth = windowWidth - 0.5;
             }
-            
+
             const cutAmount = ((trueStartingWidth - targetWidth) / 2).toFixed(2);
             const cutAmountOutput = cutAmount + " inches";
 
             document.getElementById("cutAmountOutput").textContent = cutAmountOutput;
+        }
+
+        function toggleBlindMode() {
+            updateBlindsOutput();
         }
     </script>
 </body>
