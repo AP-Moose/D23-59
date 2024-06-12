@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Home Depot Calculators</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body {
+            background-color: #fa6304;
+            color: white;
+            font-family: Arial, sans-serif;
+            font-size: 16px;
+            margin: 0;
+            padding: 20px;
+        }
+
+        main {
+            display: flex;
+            justify-content: center;
+        }
+
+        section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            width: 100%;
+            max-width: 500px;
+        }
+
+        table {
+            width: 100%;
+        }
+
+        td {
+            padding: 10px;
+        }
+
+        input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+        
+        .toggle {
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: center;
+        }
+        
+        .toggle label {
+            margin-right: 10px;
+        }
+        
+        .hidden {
+            display: none;
+        }
+
+        .tab {
+            overflow: hidden;
+            border-bottom: 1px solid #ccc;
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .tab button {
+            background-color: inherit;
+            float: left;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            padding: 14px 16px;
+            transition: 0.3s;
+            color: white;
+        }
+
+        .tab button:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .tab button.active {
+            background-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .tabcontent {
+            display: none;
+            padding: 20px;
+        }
+
+        @media screen and (max-width: 600px) {
+            body {
+                font-size: 14px;
+            }
+
+            input[type="number"] {
+                padding: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Home Depot Calculators</h1>
+    <main>
+        <section>
+            <div class="tab">
+                <button class="tablinks active" onclick="openCalculator(event, 'carpet')">Carpet</button>
+                <button class="tablinks" onclick="openCalculator(event, 'flooring')">Flooring</button>
+                <button class="tablinks" onclick="openCalculator(event, 'blinds')">Blinds</button>
+            </div>
+
+            <div id="carpet" class="tabcontent" style="display: block;">
+                <h2>Carpet Calculator</h2>
+                <div class="toggle">
+                    <label><input type="radio" name="mode" value="fullCarpet" checked onchange="toggleMode()"> Full Carpet</label>
+                    <label><input type="radio" name="mode" value="runner" onchange="toggleMode()"> Runner</label>
+                </div>
+                <table>
+                    <tr>
+                        <td><label for="feetInput">Feet:</label></td>
+                        <td><input type="number" id="feetInput" placeholder="Enter feet..." oninput="updateCarpetOutput()"></td>
+                    </tr>
+                    <tr>
+                        <td><label for="inchesInput">Inches:</label></td>
+                        <td><input type="number" id="inchesInput" placeholder="Enter inches..." oninput="updateCarpetOutput()"></td>
+                    </tr>
+                    <tr class="fullCarpet">
+                        <td><label for="costSqYdInput">Cost per Square Yard:</label></td>
+                        <td><input type="number" id="costSqYdInput" placeholder="Enter cost..." oninput="updateCarpetOutput()"></td>
+                    </tr>
+                    <tr class="runner hidden">
+                        <td><label for="costLinearFootInput">Cost per Linear Foot:</label></td>
+                        <td><input type="number" id="costLinearFootInput" placeholder="Enter cost..." oninput="updateCarpetOutput()"></td>
+                    </tr>
+                    <tr>
+                        <td>Total Length:</td>
+                        <td><span id="carpetOutput"></span></td>
+                    </tr>
+                    <tr class="fullCarpet">
+                        <td>Square Feet:</td>
+                        <td><span id="squareOutput"></span></td>
+                    </tr>
+                    <tr class="fullCarpet">
+                        <td><strong>Square Yards:</strong></td>
+                        <td><span id="squareYardOutput"></span></td>
+                    </tr>
+                    <tr class="fullCarpet">
+                        <td><strong>Total Cost (sq yd):</strong></td>
+                        <td><span id="totalCostSqYdOutput"></span></td>
+                    </tr>
+                    <tr class="runner hidden">
+                        <td><strong>Total Cost (LF):</strong></td>
+                        <td><span id="totalCostLFOutput"></span></td>
+                    </tr>
+                </table>
+            </div>
+
+            <div id="flooring" class="tabcontent">
+                <h2>Flooring Calculator</h2>
+                <table>
+                    <tr>
+                        <td><label for="totalSqFeetInput">Total Square Feet:</label></td>
+                        <td><input type="number" id="totalSqFeetInput" placeholder="Enter total square feet..." oninput="updateFlooringOutput()"></td>
+                    </tr>
+                    <tr>
+                        <td><label for="sqFeetPerBoxInput">Square Feet per Box:</label></td>
+                        <td><input type="number" id="sqFeetPerBoxInput" placeholder="Enter square feet per box..." oninput="updateFlooringOutput()"></td>
+                    </tr>
+                    <tr>
+                        <td><label for="costPerBoxInput">Cost per Box:</label></td>
+                        <td><input type="number" id="costPerBoxInput" placeholder="Enter cost per box..." oninput="updateFlooringOutput()"></td>
+                    </tr>
+                    <tr>
+                        <td><label for="extraBoxesInput">Extra Boxes:</label></td>
+                        <td><input type="number" id="extraBoxesInput" placeholder="Enter extra boxes..." oninput="updateFlooringOutput()"></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Total Boxes Needed:</strong></td>
+                        <td><span id="totalBoxesOutput"></span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Total Cost:</strong></td>
+                        <td><span id="totalFlooringCostOutput"></span></td>
+                    </tr>
+                </table>
+            </div>
+
+            <div id="blinds" class="tabcontent">
+                <h2>Blind Cutting Calculator</h2>
+                <table>
+                    <tr>
+                        <td><label for="measurementType">Customer's Measurement:</label></td>
+                        <td>
+                            <select id="measurementType" onchange="updateBlindsOutput()">
+                                <option value="outside">Outside</option>
+                                <option value="inside">Inside</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><label for="windowWidth">Customer Window Width (inches):</label></td>
+                        <td><input type="number" id="windowWidth" placeholder="Enter window width..." oninput="updateBlindsOutput()"></td>
+                    </tr>
+                    <tr>
+                        <td><label for="startingWidth">Starting Blind/Shade Width (inches):</label></td>
+                        <td><input type="number" id="startingWidth" placeholder="Enter starting width..." oninput="updateBlindsOutput()"></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Amount to Cut Off Each Side:</strong></td>
+                        <td><span id="cutAmountOutput"></span></td>
+                    </tr>
+                </table>
+            </div>
+        </section>
+    </main>
+    <script>
+        function openCalculator(evt, calculatorName) {
+            var i, tabcontent, tablinks;
+            tabcontent = document.getElementsByClassName("tabcontent");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+            tablinks = document.getElementsByClassName("tablinks");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+            document.getElementById(calculatorName).style.display = "block";
+            evt.currentTarget.className += " active";
+        }
+
+        function updateCarpetOutput() {
+            const feetInput = parseFloat(document.getElementById("feetInput").value) || 0;
+            const inchesInput = parseFloat(document.getElementById("inchesInput").value) || 0;
+            const costSqYdInput = parseFloat(document.getElementById("costSqYdInput").value) || 0;
+            const costLinearFootInput = parseFloat(document.getElementById("costLinearFootInput").value) || 0;
+
+            const totalFeet = feetInput + (inchesInput / 12);
+            const totalLength = totalFeet.toFixed(2) + " feet";
+
+            const squareFeet = (totalFeet * 12).toFixed(2);
+            const squareOutput = squareFeet + " square feet";
+
+            const squareYards = (squareFeet / 9).toFixed(2);
+            const squareYardOutput = squareYards + " square yards";
+
+            const totalCostSqYd = (squareYards * costSqYdInput).toFixed(2);
+            const totalCostSqYdOutput = "Total Cost (sq yd): $" + totalCostSqYd;
+            
+            const totalCostLF = (totalFeet * costLinearFootInput).toFixed(2);
+            const totalCostLFOutput = "Total Cost (LF): $" + totalCostLF;
+
+            document.getElementById("carpetOutput").textContent = totalLength;
+            document.getElementById("squareOutput").textContent = squareOutput;
+            document.getElementById("squareYardOutput").textContent = squareYardOutput;
+            document.getElementById("totalCostSqYdOutput").textContent = totalCostSqYdOutput;
+            document.getElementById("totalCostLFOutput").textContent = totalCostLFOutput;
+        }
+        
+        function toggleMode() {
+            const fullCarpetElements = document.querySelectorAll(".fullCarpet");
+            const runnerElements = document.querySelectorAll(".runner");
+            const selectedMode = document.querySelector('input[name="mode"]:checked').value;
+            
+            if (selectedMode === "fullCarpet") {
+                fullCarpetElements.forEach(element => element.classList.remove("hidden"));
+                runnerElements.forEach(element => element.classList.add("hidden"));
+            } else if (selectedMode === "runner") {
+                fullCarpetElements.forEach(element => element.classList.add("hidden"));
+                runnerElements.forEach(element => element.classList.remove("hidden"));
+            }
+        }
+
+        function updateFlooringOutput() {
+            const totalSqFeetInput = parseFloat(document.getElementById("totalSqFeetInput").value) || 0;
+            const sqFeetPerBoxInput = parseFloat(document.getElementById("sqFeetPerBoxInput").value) || 0;
+            const costPerBoxInput = parseFloat(document.getElementById("costPerBoxInput").value) || 0;
+            const extraBoxesInput = parseFloat(document.getElementById("extraBoxesInput").value) || 0;
+
+            const totalBoxes = Math.ceil(totalSqFeetInput / sqFeetPerBoxInput) + extraBoxesInput;
+            const totalBoxesOutput = totalBoxes + " boxes";
+
+            const totalCost = (totalBoxes * costPerBoxInput).toFixed(2);
+            const totalCostOutput = "Total Cost: $" + totalCost;
+
+            document.getElementById("totalBoxesOutput").textContent = totalBoxesOutput;
+            document.getElementById("totalFlooringCostOutput").textContent = totalCostOutput;
+        }
+
+        function updateBlindsOutput() {
+            const measurementType = document.getElementById("measurementType").value;
+            const windowWidth = parseFloat(document.getElementById("windowWidth").value) || 0;
+            const startingWidth = parseFloat(document.getElementById("startingWidth").value) || 0;
+            const trueStartingWidth = startingWidth - 0.5;
+            
+            let targetWidth;
+            if (measurementType === "outside") {
+                targetWidth = windowWidth;
+            } else {
+                targetWidth = windowWidth - 0.5;
+            }
+            
+            const cutAmount = ((trueStartingWidth - targetWidth) / 2).toFixed(2);
+            const cutAmountOutput = cutAmount + " inches";
+
+            document.getElementById("cutAmountOutput").textContent = cutAmountOutput;
+        }
+    </script>
+</body>
+</html>
